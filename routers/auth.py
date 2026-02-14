@@ -7,11 +7,11 @@ from core.security import verify_password, get_password_hash, create_access_toke
 from core.config import settings
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+security = HTTPBearer()
 
 
 @router.post("/signup", response_model=Token)
@@ -63,8 +63,9 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
 
 # Server token verify pannum
 def get_current_user(
-    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
+    token: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)
 ):
+    token = token.credentials
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]

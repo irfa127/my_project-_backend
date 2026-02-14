@@ -56,7 +56,7 @@ app.include_router(reviews.router)
 async def root(): 
     return {"message": "Welcome to ElderConnect API"}
 
-  
+   
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
