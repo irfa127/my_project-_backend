@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from core.config import settings
+from app.core.config import settings
 
 # Create engine using DATABASE_URL from settings.
 # If DATABASE_URL is None (e.g. build step), we can optionaly fallback or let it fail.
